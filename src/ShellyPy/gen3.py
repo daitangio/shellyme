@@ -28,7 +28,7 @@ class ShellyGen3(ShellyBase):
 
         self.payload_id = 1
         super().__init__(ip, port, *args, **kwargs)
-        self.__generation__ = 2
+        self.__generation__ = 3
 
     def update(self):
         status = self.settings()
@@ -96,6 +96,12 @@ class ShellyGen3(ShellyBase):
         return self.post("Sys.GetConfig")
 
     def meter(self, index):
+        """
+        @brief      Get meter information from a relay at the given index
+
+        @param      index  index of the relay
+        @return     returns attributes of meter: power, overpower, is_valid, timestamp, counters, total
+        """        
         raise NotImplementedError("Unavailable")
 
     def relay(self, index, *args, **kwargs):
@@ -156,3 +162,17 @@ class ShellyGen3(ShellyBase):
         
     def emeter(self, index, *args, **kwargs):
         raise NotImplementedError("Unavailable")
+    
+    # WebHook part
+    def hookList(self):
+        return self.post("Webhook.ListSupported")
+    
+    # Part Specific to Gen 3 Scriptability
+    def scriptList(self):
+        return self.post("Script.List")
+    
+    def script(self,index, *args, **kwargs):
+        values = {
+            "id": index
+        }
+        return self.post("Script.GetConfig", values)

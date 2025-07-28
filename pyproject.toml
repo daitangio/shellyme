@@ -5,6 +5,7 @@ description = "Shellyme CLI"
 requires-python = ">=3.11"
 dependencies = [
     "click>=8.2.1",
+    "requests>=2.32.4"
     # "ShellyPy==0.3.0"
 ]
 
